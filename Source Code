@@ -1,0 +1,77 @@
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+int X = A0;
+int Y = A1;
+int S = 7;
+int led_F = 11;
+int led_B = 8;
+int led_R = 9;
+int led_L = 10;
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("...WELCOME...");
+  
+  pinMode(A0, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(7, INPUT);
+  digitalWrite(7, HIGH);  
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+
+  lcd.setCursor(0, 0);
+  lcd.print("...DIRECTION...");
+}
+
+void loop() {
+  int X_data = analogRead(A0);
+  int Y_data = analogRead(A1);
+  int S_data = digitalRead(7);
+  
+  
+  Serial.print("X: "); Serial.println(X_data);
+  Serial.print("Y: "); Serial.println(Y_data);
+  Serial.print("S: "); Serial.println(S_data);
+  delay(100);
+  
+  
+  lcd.setCursor(0, 1);
+  lcd.print("..DIRECTION.."); 
+  
+  
+  if (Y_data < 200) {
+    digitalWrite(9, HIGH);  // RIGHT LED
+    lcd.setCursor(0, 1);
+    lcd.print("RIGHT");
+  } else if (Y_data > 800) {
+    digitalWrite(10, HIGH);  // LEFT LED
+    lcd.setCursor(0, 1);
+    lcd.print("LEFT");
+  } 
+  
+  else if (X_data <= 250) {
+    digitalWrite(11, HIGH);  // TOP LED
+    lcd.setCursor(0, 1);
+    lcd.print("TOP");
+  } else if (X_data > 700) {
+    digitalWrite(8, HIGH);  // BOTTOM LED
+    lcd.setCursor(0, 1);
+    lcd.print("BOTTOM");
+  } 
+  
+  else {
+    digitalWrite(8, LOW);
+    digitalWrite(9, LOW);
+    digitalWrite(10, LOW);
+    digitalWrite(11, LOW);
+    lcd.setCursor(0, 1);
+    lcd.print("CENTER");
+  }
+}
