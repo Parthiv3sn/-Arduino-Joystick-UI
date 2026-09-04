@@ -1,4 +1,4 @@
-# Arduino Joystick Direction UI
+# -Arduino-Joystick-UI
 
 An Arduino interface that reads an analog joystick, displays its direction on a 16×2 I²C LCD, and lights a matching direction LED.
 
